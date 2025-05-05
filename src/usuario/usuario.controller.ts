@@ -23,7 +23,7 @@ export class UsuarioController {
   }
 
   @Post()
-  create(@Body() createUsuarioDto: CreateUsuarioDto) {
+  async create(@Body() createUsuarioDto: CreateUsuarioDto) {
     return this.usuarioService.create(createUsuarioDto);
   }
 
