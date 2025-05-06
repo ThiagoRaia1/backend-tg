@@ -1,15 +1,14 @@
-import { IsString, IsNotEmpty, IsEmail } from 'class-validator'
+import { IsEmail, IsNotEmpty, ValidateIf } from 'class-validator';
 
 export class CreateUsuarioDto {
-  @IsEmail({}, { message: 'E-mail inválido' })
-  @IsNotEmpty()
-  login: string
+  @IsNotEmpty({ message: 'Preencha todos os campos.' })
+  nome: string;
 
-  @IsString()
-  @IsNotEmpty()
-  senha: string
+  @IsNotEmpty({ message: 'Preencha todos os campos.' })
+  @ValidateIf((obj) => obj.login !== '') // só valida email se login estiver preenchido
+  @IsEmail({}, { message: 'E-mail inválido.' })
+  login: string;
 
-  @IsString()
-  @IsNotEmpty({ message: 'Nome é obrigatório' })
-  nome: string
+  @IsNotEmpty({ message: 'Preencha todos os campos.' })
+  senha: string;
 }
