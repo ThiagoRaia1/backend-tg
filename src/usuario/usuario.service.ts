@@ -1,4 +1,6 @@
 import {
+  HttpException,
+  HttpStatus,
   Injectable,
   NotFoundException,
   UnauthorizedException,
@@ -48,7 +50,7 @@ export class UsuarioService {
     });
 
     if (usuarioExistente) {
-      throw new Error('Email já cadastrado.');
+      throw new HttpException('Email já cadastrado.', HttpStatus.CONFLICT); // 409
     }
 
     // Criptografa a senha
