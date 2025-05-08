@@ -11,6 +11,17 @@ class Item {
   concluido: boolean;
 }
 
+class Fase {
+  @Column()
+  titulo: string;
+
+  @Column()
+  cor: string;
+
+  @Column()
+  itens: Item[];
+}
+
 @Entity()
 export class Roadmap {
   @ObjectIdColumn()
@@ -20,11 +31,8 @@ export class Roadmap {
   titulo: string;
 
   @Column()
-  cor: string;
-
-  @Column()
   usuarioLogin: string; // Relaciona com o login único do usuário
 
-  @Column((type) => Item)
-  itens: Item[];
+  @Column()
+  fases: Fase[];
 }

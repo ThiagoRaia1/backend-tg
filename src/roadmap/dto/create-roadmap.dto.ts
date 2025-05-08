@@ -1,12 +1,17 @@
-export class RoadmapItemDto {
+export class FaseItemDto {
   titulo: string;
   descricao: string;
   concluido: boolean;
 }
 
-export class CreateRoadmapDto {
+export class RoadmapFaseDto {
   titulo: string;
   cor: string;
+  itens: FaseItemDto[];
+}
+
+export class CreateRoadmapDto {
+  titulo: string;
   usuarioLogin: string;
-  itens: RoadmapItemDto[];
+  fases: RoadmapFaseDto[];
 }
