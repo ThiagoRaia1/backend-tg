@@ -20,7 +20,10 @@ export class UsuarioService {
     private usuarioRepository: Repository<Usuario>,
   ) {}
 
-  async autenticar(login: string, senha: string): Promise<Omit<Usuario, '_id' | 'senha'>> {
+  async autenticar(
+    login: string,
+    senha: string,
+  ): Promise<Omit<Usuario, '_id' | 'senha'>> {
     const usuario = await this.usuarioRepository.findOneBy({ login });
 
     if (!usuario) {
@@ -93,6 +96,11 @@ export class UsuarioService {
       throw new NotFoundException('Usuario não encontrado com esse e-mail');
     }
 
+    // Se estiver atualizando a senha, aplicar o hash
+    if (updateUsuarioDto.senha) {
+      updateUsuarioDto.senha = await bcrypt.hash(updateUsuarioDto.senha, 10);
+    }
+
     await this.usuarioRepository.update(usuario._id, updateUsuarioDto);
 
     const usuarioAtualizado = await this.usuarioRepository.findOne({
@@ -106,7 +114,7 @@ export class UsuarioService {
     }
 
     // Remove _id e senha antes de retornar
-    const { _id, senha: _, ...usuarioSemSenha } = usuario;
+    const { _id, senha: _, ...usuarioSemSenha } = usuarioAtualizado;
     return usuarioSemSenha;
   }
 
