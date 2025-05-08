@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsuarioModule } from './usuario/usuario.module';
+import { RoadmapModule } from './roadmap/roadmap.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { UsuarioModule } from './usuario/usuario.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
     }),
     UsuarioModule,
+    RoadmapModule,
   ],
   controllers: [AppController],
   providers: [AppService],
