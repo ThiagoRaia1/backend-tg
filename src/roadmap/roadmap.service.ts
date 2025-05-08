@@ -12,12 +12,8 @@ export class RoadmapService {
     private readonly roadmapRepository: Repository<Roadmap>,
   ) {}
 
-  async criarRoadmapUsuario(createRoadmapDto: CreateRoadmapDto): Promise<Roadmap> {
+  async create(createRoadmapDto: CreateRoadmapDto): Promise<Roadmap> {
     return this.roadmapRepository.save(createRoadmapDto)
-  }
-
-  create(createRoadmapDto: CreateRoadmapDto) {
-    return 'This action adds a new roadmap';
   }
 
   findAll() {
