@@ -7,7 +7,7 @@ class Item {
   @Column()
   descricao: string;
 
-  @Column({ default: false })
+  @Column()
   concluido: boolean;
 }
 

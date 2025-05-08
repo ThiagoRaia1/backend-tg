@@ -13,7 +13,12 @@ export class RoadmapService {
   ) {}
 
   async create(createRoadmapDto: CreateRoadmapDto): Promise<Roadmap> {
-    return this.roadmapRepository.save(createRoadmapDto)
+    for (const fase of createRoadmapDto.fases) {
+      for (const item of fase.itens) {
+        item.concluido = false;
+      }
+    }
+    return this.roadmapRepository.save(createRoadmapDto);
   }
 
   findAll() {
