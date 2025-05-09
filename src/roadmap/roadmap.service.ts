@@ -10,7 +10,7 @@ export class RoadmapService {
   constructor(
     @InjectRepository(Roadmap)
     private readonly roadmapRepository: Repository<Roadmap>,
-  ) {}
+  ) { }
 
   async create(createRoadmapDto: CreateRoadmapDto): Promise<Roadmap> {
     for (const fase of createRoadmapDto.fases) {
@@ -18,16 +18,28 @@ export class RoadmapService {
         item.concluido = false;
       }
     }
-    return this.roadmapRepository.save(createRoadmapDto);
+    const roadmap = this.roadmapRepository.create(createRoadmapDto); // melhor que salvar direto
+    return await this.roadmapRepository.save(roadmap);
   }
 
-  findAll() {
-    return `This action returns all roadmap`;
+  async findAll(): Promise<Roadmap[]> {
+    return this.roadmapRepository.find(); // Isso busca todos os documentos
   }
+
 
   findOne(id: number) {
     return `This action returns a #${id} roadmap`;
   }
+
+  async findOneByLogin(titulo: string, usuarioLogin: string) {
+    return this.roadmapRepository.findOne({
+      where: {
+        titulo,
+        usuarioLogin,
+      },
+    });
+  }
+
 
   update(id: number, updateRoadmapDto: UpdateRoadmapDto) {
     return `This action updates a #${id} roadmap`;
