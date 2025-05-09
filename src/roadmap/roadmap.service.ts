@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRoadmapDto } from './dto/create-roadmap.dto';
 import { UpdateRoadmapDto } from './dto/update-roadmap.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -10,7 +10,7 @@ export class RoadmapService {
   constructor(
     @InjectRepository(Roadmap)
     private readonly roadmapRepository: Repository<Roadmap>,
-  ) { }
+  ) {}
 
   async create(createRoadmapDto: CreateRoadmapDto): Promise<Roadmap> {
     for (const fase of createRoadmapDto.fases) {
@@ -26,7 +26,6 @@ export class RoadmapService {
     return this.roadmapRepository.find(); // Isso busca todos os documentos
   }
 
-
   findOne(id: number) {
     return `This action returns a #${id} roadmap`;
   }
@@ -40,9 +39,26 @@ export class RoadmapService {
     });
   }
 
-
   update(id: number, updateRoadmapDto: UpdateRoadmapDto) {
     return `This action updates a #${id} roadmap`;
+  }
+
+  async atualizarConclusaoItem(
+    tema: string,
+    faseIndex: number,
+    itemIndex: number,
+    usuarioLogin: string,
+    concluido: boolean,
+  ) {
+    const roadmap = await this.roadmapRepository.findOne({
+      where: { titulo: tema, usuarioLogin },
+    });
+
+    if (!roadmap) throw new NotFoundException('Roadmap não encontrado');
+
+    roadmap.fases[faseIndex].itens[itemIndex].concluido = concluido;
+
+    return this.roadmapRepository.save(roadmap);
   }
 
   remove(id: number) {

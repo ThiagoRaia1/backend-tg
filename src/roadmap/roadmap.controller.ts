@@ -1,11 +1,19 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { RoadmapService } from './roadmap.service';
 import { CreateRoadmapDto } from './dto/create-roadmap.dto';
 import { UpdateRoadmapDto } from './dto/update-roadmap.dto';
 
 @Controller('roadmap')
 export class RoadmapController {
-  constructor(private readonly roadmapService: RoadmapService) { }
+  constructor(private readonly roadmapService: RoadmapService) {}
 
   @Post()
   async create(@Body() createRoadmapDto: CreateRoadmapDto) {
@@ -25,14 +33,33 @@ export class RoadmapController {
   // }
 
   @Get(':titulo/:usuarioLogin')
-  async findOne(@Param('titulo') titulo: string, @Param('usuarioLogin') usuarioLogin: string) {
+  async findOne(
+    @Param('titulo') titulo: string,
+    @Param('usuarioLogin') usuarioLogin: string,
+  ) {
     return await this.roadmapService.findOneByLogin(titulo, usuarioLogin);
   }
-
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRoadmapDto: UpdateRoadmapDto) {
     return this.roadmapService.update(+id, updateRoadmapDto);
+  }
+
+  @Patch('roadmap/:tema/:faseIndex/:itemIndex')
+  async atualizarItem(
+    @Param('tema') tema: string,
+    @Param('faseIndex') faseIndex: number,
+    @Param('itemIndex') itemIndex: number,
+    @Body('usuarioLogin') usuarioLogin: string,
+    @Body('concluido') concluido: boolean,
+  ) {
+    return this.roadmapService.atualizarConclusaoItem(
+      tema,
+      faseIndex,
+      itemIndex,
+      usuarioLogin,
+      concluido,
+    );
   }
 
   @Delete(':id')
