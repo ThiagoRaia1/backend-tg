@@ -10,7 +10,12 @@ import { config } from './ormconfig';
 @Module({
   imports: [
     ConfigModule.forRoot(), // Carrega as variáveis do .env automaticamente
-    TypeOrmModule.forRoot(config),
+    TypeOrmModule.forRoot({
+      type: 'mongodb',
+      url: process.env.MONGODB_URL,
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true,
+    }),
     UsuarioModule,
     RoadmapModule,
   ],
