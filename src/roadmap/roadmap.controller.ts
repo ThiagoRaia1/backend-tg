@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  NotFoundException,
 } from '@nestjs/common';
 import { RoadmapService } from './roadmap.service';
 import { CreateRoadmapDto } from './dto/create-roadmap.dto';
@@ -37,7 +38,16 @@ export class RoadmapController {
     @Param('titulo') titulo: string,
     @Param('usuarioLogin') usuarioLogin: string,
   ) {
-    return await this.roadmapService.findOneByLogin(titulo, usuarioLogin);
+    const roadmap = await this.roadmapService.findOneByLogin(
+      titulo,
+      usuarioLogin,
+    );
+
+    if (!roadmap) {
+      throw new NotFoundException('Roadmap não encontrado para o usuário.');
+    }
+
+    return roadmap;
   }
 
   @Patch(':id')
@@ -45,7 +55,7 @@ export class RoadmapController {
     return this.roadmapService.update(+id, updateRoadmapDto);
   }
 
-  @Patch('roadmap/:tema/:faseIndex/:itemIndex')
+  @Patch(':tema/:faseIndex/:itemIndex')
   async atualizarItem(
     @Param('tema') tema: string,
     @Param('faseIndex') faseIndex: number,
@@ -62,8 +72,11 @@ export class RoadmapController {
     );
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.roadmapService.remove(+id);
+  @Delete(':login/:titulo')
+  remove(
+    @Param('login') login: string,
+    @Param('titulo') titulo: string,
+  ): Promise<void> {
+    return this.roadmapService.remove(login, titulo);
   }
 }

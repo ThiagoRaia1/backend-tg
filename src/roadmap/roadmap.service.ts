@@ -61,7 +61,18 @@ export class RoadmapService {
     return this.roadmapRepository.save(roadmap);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} roadmap`;
+  async remove(usuarioLogin: string, titulo: string): Promise<void> {
+    const roadmap = await this.roadmapRepository.findOne({
+      where: {
+        usuarioLogin,
+        titulo,
+      },
+    });
+
+    if (!roadmap) {
+      throw new NotFoundException('Roadmap não encontrado');
+    }
+
+    await this.roadmapRepository.remove(roadmap);
   }
 }
