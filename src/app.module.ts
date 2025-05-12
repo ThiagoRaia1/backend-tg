@@ -6,10 +6,11 @@ import { AppService } from './app.service';
 import { UsuarioModule } from './usuario/usuario.module';
 import { RoadmapModule } from './roadmap/roadmap.module';
 import { config } from './ormconfig';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(), // Carrega as variáveis do .env automaticamente
+    ConfigModule.forRoot({ isGlobal: true }), // Carrega as variáveis do .env automaticamente
     TypeOrmModule.forRoot({
       type: 'mongodb',
       url: process.env.MONGODB_URL,
@@ -18,6 +19,7 @@ import { config } from './ormconfig';
     }),
     UsuarioModule,
     RoadmapModule,
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
