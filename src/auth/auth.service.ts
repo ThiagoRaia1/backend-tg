@@ -23,10 +23,19 @@ export class AuthService {
   }
 
   async login(usuario: { login: string; nome: string }) {
-    // Geramos o token JWT
-    const payload = { login: usuario.login, nome: usuario.nome };
+    // Definimos o payload do JWT com os dados que queremos incluir
+    const payload = {
+      login: usuario.login,
+      nome: usuario.nome,
+    };
+
+    // Geramos o token e retornamos o token + dados do usuário
     return {
       access_token: this.jwtService.sign(payload),
+      usuario: {
+        login: usuario.login,
+        nome: usuario.nome,
+      },
     };
   }
 }
