@@ -6,7 +6,6 @@ import { AppService } from './app.service';
 import { UsuarioModule } from './usuario/usuario.module';
 import { RoadmapModule } from './roadmap/roadmap.module';
 import { config } from './ormconfig';
-import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -19,7 +18,6 @@ import { AuthModule } from './auth/auth.module';
     }),
     UsuarioModule,
     RoadmapModule,
-    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
