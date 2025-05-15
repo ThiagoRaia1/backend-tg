@@ -49,7 +49,7 @@ export class UsuarioService {
   async create(createUsuarioDto: CreateUsuarioDto): Promise<Usuario> {
     // Verifica se já existe um usuario com o mesmo email
     const usuarioExistente = await this.usuarioRepository.findOne({
-      where: { login: createUsuarioDto.login }, // ou `email` se for esse o nome do campo
+      where: { login: createUsuarioDto.login },
     });
 
     if (usuarioExistente) {
@@ -72,16 +72,8 @@ export class UsuarioService {
     return this.usuarioRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} usuario`;
-  }
-
   async findOneByLogin(login: string) {
     return this.usuarioRepository.findOne({ where: { login } });
-  }
-
-  update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    return `This action updates a #${id} usuario`;
   }
 
   async updateByEmail(

@@ -32,11 +32,6 @@ export class UsuarioController {
     return this.usuarioService.findAll();
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.usuarioService.findOne(+id);
-  // }
-
   @Get(':login')
   async findOne(@Param('login') login: string) {
     return await this.usuarioService.findOneByLogin(login);

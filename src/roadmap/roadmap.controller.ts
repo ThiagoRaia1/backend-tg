@@ -19,7 +19,7 @@ export class RoadmapController {
   @Post()
   async create(@Body() createRoadmapDto: CreateRoadmapDto) {
     const result = await this.roadmapService.create(createRoadmapDto);
-    console.log('Salvo no banco:', result); // Debug útil
+    // console.log('Salvo no banco:', result); // Debug útil
     return result;
   }
 
@@ -27,11 +27,6 @@ export class RoadmapController {
   findAll() {
     return this.roadmapService.findAll();
   }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.roadmapService.findOne(+id);
-  // }
 
   @Get(':titulo/:usuarioLogin')
   async findOne(
@@ -48,11 +43,6 @@ export class RoadmapController {
     }
 
     return roadmap;
-  }
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRoadmapDto: UpdateRoadmapDto) {
-    return this.roadmapService.update(+id, updateRoadmapDto);
   }
 
   @Patch(':tema/:faseIndex/:itemIndex')

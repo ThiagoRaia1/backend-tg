@@ -26,10 +26,6 @@ export class RoadmapService {
     return this.roadmapRepository.find(); // Isso busca todos os documentos
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} roadmap`;
-  }
-
   async findOneByLogin(titulo: string, usuarioLogin: string) {
     return this.roadmapRepository.findOne({
       where: {
@@ -37,10 +33,6 @@ export class RoadmapService {
         usuarioLogin,
       },
     });
-  }
-
-  update(id: number, updateRoadmapDto: UpdateRoadmapDto) {
-    return `This action updates a #${id} roadmap`;
   }
 
   async atualizarConclusaoItem(
