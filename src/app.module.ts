@@ -5,12 +5,16 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UsuarioModule } from './usuario/usuario.module';
 import { RoadmapModule } from './roadmap/roadmap.module';
-import { config } from './ormconfig';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }), // Carrega as variáveis do .env automaticamente
-    TypeOrmModule.forRoot(config),
+    TypeOrmModule.forRoot({
+      type: 'mongodb',
+      url: process.env.MONGODB_URL,
+      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      synchronize: true,
+    }),
     UsuarioModule,
     RoadmapModule,
   ],
