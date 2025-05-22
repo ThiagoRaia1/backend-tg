@@ -62,6 +62,15 @@ export class RoadmapController {
     );
   }
 
+  @Patch(':temaAtual/:login')
+  async atualizarNomeRoadmap(
+    @Param('temaAtual') temaAtual: string,
+    @Param('login') login: string,
+    @Body('tema') novoTema: string,
+  ) {
+    return this.roadmapService.atualizarNomeRoadmap(novoTema, temaAtual, login);
+  }
+
   @Delete(':login/:titulo')
   remove(
     @Param('login') login: string,

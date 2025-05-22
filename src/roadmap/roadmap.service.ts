@@ -53,6 +53,27 @@ export class RoadmapService {
     return this.roadmapRepository.save(roadmap);
   }
 
+  async atualizarNomeRoadmap(
+    novoTema: string,
+    temaAtual: string,
+    usuarioLogin: string,
+  ) {
+    const roadmap = await this.roadmapRepository.findOne({
+      where: { titulo: temaAtual, usuarioLogin },
+    });
+
+    // console.log("temaAtual: " + temaAtual)
+    // console.log("usuarioLogin: " + usuarioLogin)
+    // console.log("novoTema: " + novoTema)
+    //console.log(roadmap)
+
+    if (!roadmap) throw new NotFoundException('Roadmap não encontrado');
+
+    roadmap.titulo = novoTema;
+
+    return this.roadmapRepository.save(roadmap);
+  }
+
   async remove(usuarioLogin: string, titulo: string): Promise<void> {
     const roadmap = await this.roadmapRepository.findOne({
       where: {
