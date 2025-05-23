@@ -74,6 +74,51 @@ export class RoadmapService {
     return this.roadmapRepository.save(roadmap);
   }
 
+  async editarDescricaoItem(
+    titulo: string,
+    usuarioLogin: string,
+    fase: string,
+    item: string,
+    novaDescricao: string,
+  ) {
+    console.log(titulo);
+    console.log(usuarioLogin);
+    const roadmap = await this.roadmapRepository.findOneBy({
+      titulo,
+      usuarioLogin,
+    });
+
+    console.log('2');
+    if (roadmap) console.log('AAAAAAAAAA');
+
+    if (!roadmap) throw new NotFoundException('aaaaaRoadmap não encontrado');
+
+    // const fase = roadmap.fases.find((f) => f.titulo === tituloFase);
+    // if (!fase) throw new NotFoundException('Fase não encontrada');
+
+    // const item = fase.itens.find((i) => i.titulo === tituloItem);
+    // if (!item) throw new NotFoundException('Item não encontrado');
+
+    roadmap.fases.forEach((f)=> console.log(f))
+
+    roadmap.
+
+    const faseRoadmap = roadmap.fases.find((f) => f.titulo === titulo);
+    const itemRoadmap = faseRoadmap?.itens.find((i) => i.titulo === item);
+
+    console.log(faseRoadmap);
+    console.log(itemRoadmap?.descricao);
+    if (itemRoadmap) {
+      itemRoadmap.descricao = novaDescricao;
+      console.log(itemRoadmap.descricao);
+    }
+    // item.descricao = novaDescricao;
+
+    // roadmap.titulo = novoTema;
+
+    return this.roadmapRepository.save(roadmap);
+  }
+
   async remove(usuarioLogin: string, titulo: string): Promise<void> {
     const roadmap = await this.roadmapRepository.findOne({
       where: {
