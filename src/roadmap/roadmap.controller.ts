@@ -18,7 +18,6 @@ export class RoadmapController {
 
   @Post()
   async create(@Body() createRoadmapDto: CreateRoadmapDto) {
-    console.log("create")
     const result = await this.roadmapService.create(createRoadmapDto);
     // console.log('Salvo no banco:', result); // Debug útil
     return result;
@@ -26,7 +25,6 @@ export class RoadmapController {
 
   @Get()
   findAll() {
-    console.log("findAll")
     return this.roadmapService.findAll();
   }
 
@@ -35,7 +33,6 @@ export class RoadmapController {
     @Param('titulo') titulo: string,
     @Param('usuarioLogin') usuarioLogin: string,
   ) {
-    console.log("findOne")
     const roadmap = await this.roadmapService.findOneByLogin(
       titulo,
       usuarioLogin,
@@ -48,7 +45,7 @@ export class RoadmapController {
     return roadmap;
   }
 
-  @Patch('item/:tema/:faseIndex/:itemIndex')
+  @Patch(':tema/:faseIndex/:itemIndex')
   async atualizarItem(
     @Param('tema') tema: string,
     @Param('faseIndex') faseIndex: number,
@@ -56,7 +53,6 @@ export class RoadmapController {
     @Body('usuarioLogin') usuarioLogin: string,
     @Body('concluido') concluido: boolean,
   ) {
-    console.log("atualizarItem")
     return this.roadmapService.atualizarConclusaoItem(
       tema,
       faseIndex,
@@ -66,32 +62,13 @@ export class RoadmapController {
     );
   }
 
-  @Patch('nomeRoadmap/:temaAtual/:login')
+  @Patch(':temaAtual/:login')
   async atualizarNomeRoadmap(
     @Param('temaAtual') temaAtual: string,
     @Param('login') login: string,
     @Body('tema') novoTema: string,
   ) {
-    console.log("atualizarNomeRoadmap")
     return this.roadmapService.atualizarNomeRoadmap(novoTema, temaAtual, login);
-  }
-
-  @Patch('descricao/:titulo/:login')
-  async editarDescricaoItem(
-    @Param('titulo') titulo: string,
-    @Param('login') login: string,
-    @Body('fase') fase: string,
-    @Body('item') item: string,
-    @Body('novaDescricao') novaDescricao: string,
-  ) {
-    console.log("editarDescricaoItem")
-    return this.roadmapService.editarDescricaoItem(
-      titulo,
-      login,
-      fase,
-      item,
-      novaDescricao,
-    );
   }
 
   @Delete(':login/:titulo')
@@ -99,7 +76,6 @@ export class RoadmapController {
     @Param('login') login: string,
     @Param('titulo') titulo: string,
   ): Promise<void> {
-    console.log("remove")
     return this.roadmapService.remove(login, titulo);
   }
 }
