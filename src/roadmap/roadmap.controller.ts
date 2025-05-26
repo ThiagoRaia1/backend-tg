@@ -62,7 +62,24 @@ export class RoadmapController {
     );
   }
 
-  @Patch(':temaAtual/:login')
+  @Patch('item/descricao/:titulo/:faseIndex/:itemIndex')
+  async atualizarDescricaoItem(
+    @Param('titulo') titulo: string,
+    @Param('faseIndex') faseIndex: number,
+    @Param('itemIndex') itemIndex: number,
+    @Body('usuarioLogin') usuarioLogin: string,
+    @Body('novaDescricao') novaDescricao: string,
+  ) {
+    return this.roadmapService.atualizarDescricaoItem(
+      titulo,
+      faseIndex,
+      itemIndex,
+      usuarioLogin,
+      novaDescricao,
+    );
+  }
+
+  @Patch('nomeRoadmap/:temaAtual/:login')
   async atualizarNomeRoadmap(
     @Param('temaAtual') temaAtual: string,
     @Param('login') login: string,

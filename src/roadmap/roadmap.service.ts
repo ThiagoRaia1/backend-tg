@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRoadmapDto } from './dto/create-roadmap.dto';
-import { UpdateRoadmapDto } from './dto/update-roadmap.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Roadmap } from './entities/roadmap.entity';
@@ -49,6 +48,24 @@ export class RoadmapService {
     if (!roadmap) throw new NotFoundException('Roadmap não encontrado');
 
     roadmap.fases[faseIndex].itens[itemIndex].concluido = concluido;
+
+    return this.roadmapRepository.save(roadmap);
+  }
+
+  async atualizarDescricaoItem(
+    tema: string,
+    faseIndex: number,
+    itemIndex: number,
+    usuarioLogin: string,
+    novaDescricao: string,
+  ) {
+    const roadmap = await this.roadmapRepository.findOne({
+      where: { titulo: tema, usuarioLogin },
+    });
+
+    if (!roadmap) throw new NotFoundException('Roadmap não encontrado');
+
+    roadmap.fases[faseIndex].itens[itemIndex].descricao = novaDescricao;
 
     return this.roadmapRepository.save(roadmap);
   }
